@@ -143,8 +143,8 @@ flutter run
 | Área | Responsáveis |
 |------|-------------|
 | 🗄️ **Banco de Dados** | Iara Matias · Abraão Paixão |
-| ⚙️ **Backend Architecture** | Abraão Paixão · Pedro Souza |
-| 📱 **Mobile Engineering** | Kíria Goís · Maria Luiza · Daniel Arévalo |
+| ⚙️ **Backend** | Abraão Paixão · Pedro Souza |
+| 📱 **Frontend** | Kíria Goís · Maria Luiza · Daniel Arévalo |
 
 </div>
 
