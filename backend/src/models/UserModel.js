@@ -18,9 +18,25 @@ class UserModel {
     static async findByEmail(email) {
         // Ajustando as colunas retornadas do SQL (senha as password, username as name) 
         // para manter compatibilidade com o Controller
-        const query = 'SELECT id, username as name, email, senha as password, role FROM Usuarios WHERE email = ?';
+        const query = 'SELECT id, username as name, email, senha as password, role, reset_token, reset_token_expires FROM Usuarios WHERE email = ?';
         const [rows] = await db.execute(query, [email]);
         return rows[0]; 
+    }
+
+    static async findByResetToken(token) {
+        const query = 'SELECT id, username as name, email, senha as password, role FROM Usuarios WHERE reset_token = ? AND reset_token_expires > NOW()';
+        const [rows] = await db.execute(query, [token]);
+        return rows[0];
+    }
+
+    static async updateResetToken(userId, token, expires) {
+        const query = 'UPDATE Usuarios SET reset_token = ?, reset_token_expires = ? WHERE id = ?';
+        await db.execute(query, [token, expires, userId]);
+    }
+
+    static async updatePassword(userId, newPassword) {
+        const query = 'UPDATE Usuarios SET senha = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?';
+        await db.execute(query, [newPassword, userId]);
     }
 
     static generateToken(user) {

@@ -6,7 +6,9 @@ import 'package:flutter/foundation.dart';
 
 class AuthService {
   // URL da API - Detecta automaticamente se é web/desktop (localhost) ou emulador Android (10.0.2.2)
-  static const String baseUrl = kIsWeb ? 'http://localhost:3000/api/auth' : 'http://10.0.2.2:3000/api/auth';
+  static const String baseUrl = kIsWeb
+      ? 'http://localhost:3000/api/auth'
+      : 'http://10.0.2.2:3000/api/auth';
 
   static Map<String, dynamic> _safeDecode(String body) {
     try {
@@ -82,5 +84,46 @@ class AuthService {
   static Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_token');
+  }
+
+  static Future<Map<String, dynamic>> forgotPassword(String email) async {
+    final url = Uri.parse('$baseUrl/forgot-password');
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'email': email}),
+    );
+
+    final data = _safeDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return data;
+    } else {
+      throw Exception(
+        data['message'] ?? 'Erro ao solicitar recuperação de senha.',
+      );
+    }
+  }
+
+  static Future<Map<String, dynamic>> resetPassword(
+    String token,
+    String newPassword,
+  ) async {
+    final url = Uri.parse('$baseUrl/reset-password');
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'token': token, 'newPassword': newPassword}),
+    );
+
+    final data = _safeDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return data;
+    } else {
+      throw Exception(data['message'] ?? 'Erro ao redefinir senha.');
+    }
   }
 }

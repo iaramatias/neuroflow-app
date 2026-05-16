@@ -4,6 +4,7 @@ import 'presentation/screens/login_screen.dart';
 import 'presentation/screens/register_screen.dart';
 import 'presentation/screens/home_screen.dart';
 import 'presentation/screens/alphabet_board_screen.dart';
+import 'presentation/screens/forgot_password_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterScreen(),
         '/home': (context) => const HomeScreen(),
         '/alphabet': (context) => const AlphabetBoardScreen(),
+        '/forgot_password': (context) => const ForgotPasswordScreen(),
       },
     );
   }

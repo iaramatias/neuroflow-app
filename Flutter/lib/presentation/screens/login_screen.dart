@@ -43,7 +43,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(result['message'] ?? 'Login realizado com sucesso!')),
+          SnackBar(
+            content: Text(result['message'] ?? 'Login realizado com sucesso!'),
+          ),
         );
         // Navega para a Home
         Navigator.pushReplacementNamed(context, '/home');
@@ -116,7 +118,23 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
 
-            const SizedBox(height: 30),
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/forgot_password');
+                },
+                child: Text(
+                  'Esqueci a senha',
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
 
             // BOTÃO ENTRAR
             ElevatedButton(
