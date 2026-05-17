@@ -29,6 +29,7 @@ services:
       - DB_PASSWORD=rootpassword
       - DB_NAME=neuroflow_db
       - JWT_SECRET=sua_chave_jwt_secreta_e_segura
+      - TOKEN_EXPIRATION=1h
     depends_on:
       - db
     networks:
