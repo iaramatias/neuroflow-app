@@ -4,10 +4,10 @@ class ApiConstants {
   // === CONFIGURAÇÃO DE AMBIENTE ===
   // 1. Altere para [true] quando for testar com a API na Nuvem / Servidor VPS
   // 2. Mantenha [false] para desenvolvimento local na própria máquina
-  static const bool isProduction = false;
+  static const bool isProduction = true;
 
   // URL do seu servidor na nuvem (Ex: 'http://123.45.67.89:3000' ou 'https://api.meusite.com')
-  static const String productionBaseUrl = 'http://SEU_IP_DO_SERVIDOR:3000';
+  static const String productionBaseUrl = 'http://18.229.149.163:3000';
 
   // =============== LÓGICA DE URL ===============
   static String get baseUrl {
