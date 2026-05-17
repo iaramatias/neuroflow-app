@@ -3,6 +3,14 @@ const { DataTypes } = require('sequelize');
 async function ensureAuthSchema(sequelize) {
     const queryInterface = sequelize.getQueryInterface();
 
+    await sequelize.query(`
+        SET SESSION sql_mode = REPLACE(
+            REPLACE(@@SESSION.sql_mode, 'NO_ZERO_IN_DATE', ''),
+            'NO_ZERO_DATE',
+            ''
+        )
+    `);
+
     let table;
     try {
         table = await queryInterface.describeTable('Usuarios');
