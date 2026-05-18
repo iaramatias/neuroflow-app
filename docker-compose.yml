@@ -12,6 +12,12 @@ services:
       - mysql_data:/var/lib/mysql
       # O MySQL no Docker roda automaticamente arquivos .sql contidos nessa pasta ao inicializar
       - ./backend/database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
     networks:
       - neuroflow-net
 
@@ -36,7 +42,8 @@ services:
       - REFRESH_TOKEN_EXPIRATION=30d
       - RESET_TOKEN_EXPIRATION_MINUTES=5
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - neuroflow-net
 
