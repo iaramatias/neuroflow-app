@@ -1,4 +1,4 @@
-package com.example.sensicheck
+package com.example.neuroflow
 
 import io.flutter.embedding.android.FlutterActivity
 
