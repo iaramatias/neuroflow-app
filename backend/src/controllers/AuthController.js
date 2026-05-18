@@ -2,6 +2,15 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const UserModel = require('../models/UserModel');
 const RefreshTokenModel = require('../models/RefreshTokenModel');
+const { isMailConfigured, sendPasswordResetEmail } = require('../services/emailService');
+
+function shouldReturnResetTokenInResponse() {
+    if (process.env.RESET_TOKEN_RESPONSE_ENABLED !== undefined) {
+        return process.env.RESET_TOKEN_RESPONSE_ENABLED === 'true';
+    }
+
+    return process.env.NODE_ENV !== 'production';
+}
 
 class AuthController {
     static async register(req, res) {
@@ -103,7 +112,20 @@ class AuthController {
 
             await UserModel.updateResetToken(user.id, token, expires);
 
-            return res.status(200).json({ success: true, message: 'Se o e-mail estiver cadastrado, as instrucoes foram enviadas.' });
+            const response = { success: true, message: 'Se o e-mail estiver cadastrado, as instrucoes foram enviadas.' };
+            if (isMailConfigured()) {
+                await sendPasswordResetEmail({
+                    to: user.email,
+                    token,
+                    expires
+                });
+            }
+
+            if (shouldReturnResetTokenInResponse()) {
+                response.token = token;
+            }
+
+            return res.status(200).json(response);
         } catch (error) {
             console.error('[AuthController] Erro em forgotPassword:', error);
             return res.status(500).json({ success: false, message: 'Erro interno do servidor.' });

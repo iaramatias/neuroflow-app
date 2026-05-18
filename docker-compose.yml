@@ -20,6 +20,8 @@ services:
       context: ./backend
     container_name: neuroflow-backend
     restart: always
+    env_file:
+      - ./backend/.env
     ports:
       - "3000:3000"
     environment:
