@@ -38,6 +38,22 @@ class CustomDrawer extends StatelessWidget {
             ),
             ListTile(
               leading: const Icon(
+                Icons.calendar_month,
+                color: Color(0xFF4A6572),
+              ),
+              title: const Text(
+                'Resumo Semanal',
+                style: TextStyle(
+                  color: Color(0xFF4A6572),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/weekly');
+              },
+            ),
+            ListTile(
+              leading: const Icon(
                 Icons.support_agent,
                 color: Color(0xFF4A6572),
               ),
